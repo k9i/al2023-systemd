@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      args:
+        AL_VERSION: '2023'
+    image: 'al2023-systemd:${IMAGE_TAG:-latest}'
+    tty: true  # (OPTION) Console log can be displayed during foreground startup
+    #privileged: true  # Seems not required if SYS_ADMIN is present
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "81:80"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup # require R/W access
+    tmpfs:
+      - /tmp
+      - /run
+
+    logging:  # (OPTION)
+      driver: local
+      options:
+        max-file: '2'
+        max-size: '10m'
