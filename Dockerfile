@@ -20,8 +20,11 @@ RUN set -eux; \
 
 VOLUME [ "/sys/fs/cgroup" ]
 
-CMD [ "/sbin/init" ] # init is symlinked to systemd
-STOPSIGNAL SIGRTMIN+3 # Seems required for graceful stop of systemd
+# init is symlinked to systemd
+CMD [ "/sbin/init" ]
+
+# Seems required for graceful stop of systemd
+STOPSIGNAL SIGRTMIN+3
 
 # ----------------------------------------------------------------------
 # additional packages
